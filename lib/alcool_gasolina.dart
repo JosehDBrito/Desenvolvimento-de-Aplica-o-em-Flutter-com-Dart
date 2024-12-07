@@ -11,21 +11,25 @@ class _AlcoolGasolinaState extends State<AlcoolGasolina> {
   String _textoResultado = "";
 
   void _calcular() {
-    var precoAlcool = double.tryParse(_controllerAlcool.text);
-    var precoGasolina = double.tryParse(_controllerGasolina.text);
+    // Substituir vírgula por ponto nos textos inseridos
+    var precoAlcool =
+        double.tryParse(_controllerAlcool.text.replaceAll(',', '.'));
+    var precoGasolina =
+        double.tryParse(_controllerGasolina.text.replaceAll(',', '.'));
 
     if (precoAlcool == null || precoGasolina == null) {
       setState(() {
-        _textoResultado = "Número inválido";
+        _textoResultado =
+            "Número inválido. Use números válidos, como 4,99 ou 5.99";
       });
     } else {
-      if (precoAlcool / precoGasolina >= 0.7) {
+      if (precoAlcool < precoGasolina) {
         setState(() {
-          _textoResultado = "Compre Gasolina";
+          _textoResultado = "Compre Álcool";
         });
       } else {
         setState(() {
-          _textoResultado = "Compre Alcool";
+          _textoResultado = "Compre Gasolina";
         });
       }
     }
